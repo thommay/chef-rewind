@@ -43,7 +43,7 @@ describe Chef::Recipe do
       expect(resources.length).to eq 2
     end
 
-    it "should define resource completely when unwind is called" do
+    it "should delete resource completely when unwind is called" do
       @recipe.zen_master "foo" do
         action :nothing
         peace false
@@ -70,6 +70,24 @@ describe Chef::Recipe do
       expect {
         @recipe.unwind "zen_master[foobar]"
       }.to raise_error(Chef::Exceptions::ResourceNotFound)
+    end
+
+    it "should correctly unwind a resource that was defined more than once" do
+      @recipe.zen_master "foo" do
+        peace true
+      end
+      @recipe.cat "blanket"
+      @recipe.zen_master "foo" do
+        peace false
+      end
+      @recipe.zen_master "bar"
+
+      @recipe.unwind "zen_master[foo]"
+
+      %w(zen_master[bar] cat[blanket]).each do |name|
+        resource = @run_context.resource_collection.lookup(name)
+        resource.to_s.should == name
+      end
     end
   end
 
