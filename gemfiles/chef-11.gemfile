@@ -5,7 +5,7 @@ gemspec
 gem "activesupport", :group => :compat_testing, :platform => "ruby"
 gem "ronn"
 gem "rspec"
-gem "chef"
+gem "chef", '~> 11.0'
 gem "pry"
 
 group(:development, :test) do

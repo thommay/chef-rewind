@@ -1,0 +1,9 @@
+language: ruby
+rvm:
+  - 2.1.5
+  - 2.0.0
+script: bundle exec rake spec
+gemfile:
+  - Gemfile
+  - gemfiles/chef-11.gemfile
+  - gemfiles/chef-12.gemfile
