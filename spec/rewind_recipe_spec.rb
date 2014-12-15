@@ -1,9 +1,8 @@
-
 require 'spec_helper'
 require 'chef/rewind'
 
 describe Chef::Recipe do
-  
+
   before(:each) do
     @cookbook_repo = File.expand_path(File.join(File.dirname(__FILE__), "..", "data", "cookbooks"))
     cl = Chef::CookbookLoader.new(@cookbook_repo)
@@ -18,7 +17,7 @@ describe Chef::Recipe do
     # Shell/ext.rb is on the run path, and it defines
     # Chef::Recipe#resources to call pp, which we don't want when
     # we're running tests.
-    @recipe.stub!(:pp)
+    allow(@recipe).to receive(:pp)
   end
 
 
@@ -28,34 +27,34 @@ describe Chef::Recipe do
       @recipe.zen_master "foobar" do
         peace false
       end
-      
+
       @recipe.rewind "zen_master[foobar]" do
         peace true
       end
       resources = @run_context.resource_collection.all_resources
-      resources.length.should == 1
+      expect(resources.length).to eq 1
     end
 
     it "change the value of an existing resource" do
       @recipe.zen_master "foobar" do
         peace false
       end
-      
+
       @recipe.rewind "zen_master[foobar]" do
         peace true
       end
-      
+
       zen_master = @run_context.resource_collection.find("zen_master[foobar]")
       peace_status = zen_master.instance_exec { @peace }
-      peace_status.should == true 
+      expect(peace_status).to be true 
     end
-    
+
     it "throw an error when rewinding a nonexistent resource" do
-      lambda do 
+      expect {
         @recipe.rewind "zen_master[foobar]" do
           peace true
         end
-      end.should raise_error(Chef::Exceptions::ResourceNotFound)
+      }.to raise_error(Chef::Exceptions::ResourceNotFound)
     end
   end
 

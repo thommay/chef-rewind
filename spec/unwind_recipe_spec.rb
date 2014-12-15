@@ -29,7 +29,7 @@ describe Chef::Recipe do
       @recipe.unwind "zen_master[foobar]"
 
       resources = @run_context.resource_collection.all_resources
-      resources.length.should == 0
+      expect(resources.length).to eq 0
     end
 
     it "should define resource completely when unwind is called" do
@@ -52,13 +52,13 @@ describe Chef::Recipe do
         notifies :blowup, "cat[blanket]"
       end
 
-      lambda { @runner.converge }.should raise_error(Chef::Provider::Cat::CatError)
+      expect { @runner.converge }.to raise_error(Chef::Provider::Cat::CatError)
     end
 
     it "should throw an error when unwinding a nonexistent resource" do
-      lambda do
+      expect {
         @recipe.unwind "zen_master[foobar]"
-      end.should raise_error(Chef::Exceptions::ResourceNotFound)
+      }.to raise_error(Chef::Exceptions::ResourceNotFound)
     end
   end
 

@@ -18,7 +18,7 @@ describe Chef::Resource do
   describe "cookbook_name" do
     it "cookbook_name sets @cookbook_name properly" do
       @resource.cookbook_name "foobar"
-      @resource.cookbook_name.should == "foobar"
+      expect(@resource.cookbook_name).to eq "foobar"
     end
 
   end
@@ -26,7 +26,7 @@ describe Chef::Resource do
   describe "recipe_name" do
     it "recipe_name sets @recipe_name properly" do
       @resource.recipe_name "foobar"
-      @resource.recipe_name.should == "foobar"
+      expect(@resource.recipe_name).to eq "foobar"
     end
 
   end
