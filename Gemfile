@@ -6,4 +6,4 @@ gem "ronn"
 gem "rspec"
 gem "chef"
 gem "pry"
-
+gem "rake"

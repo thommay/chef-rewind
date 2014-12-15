@@ -4,3 +4,4 @@ gem "ronn"
 gem "rspec"
 gem "chef", '~> 12.0'
 gem "pry"
+gem "rake"
