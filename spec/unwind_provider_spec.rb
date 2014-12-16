@@ -16,7 +16,7 @@ describe Chef::Provider do
     @events = Chef::EventDispatch::Dispatcher.new
     @run_context = Chef::RunContext.new(@node, @cookbook_collection, @events)
     @resource = Chef::Resource.new("funk", @run_context)
-    @provider = Chef::Provider.new(@resource, @run_context)
+    @provider = Chef::Provider::LWRPBase.new(@resource, @run_context)
     @runner = Chef::Runner.new(@run_context)
   end
 

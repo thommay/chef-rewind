@@ -121,7 +121,7 @@ class Chef
   class Provider
     include ChefRewind
 
-    def resources *args
+    def resources(*args)
       resource_collection && resource_collection.find(*args)
     end
   end

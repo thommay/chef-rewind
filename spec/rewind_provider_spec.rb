@@ -11,12 +11,12 @@ describe Chef::Provider do
     @events = Chef::EventDispatch::Dispatcher.new
     @run_context = Chef::RunContext.new(@node, @cookbook_collection, @events)
     @resource = Chef::Resource.new("funk", @run_context)
-    @provider = Chef::Provider.new(@resource, @run_context)
+    @provider = Chef::Provider::LWRPBase.new(@resource, @run_context)
   end
 
 
   describe "rewind" do
-    it "rewind an existing resource rather than create a new one" do
+    it "rewinds an existing resource rather than create a new one" do
 
       @provider.zen_master "foobar" do
         peace false
