@@ -5,6 +5,10 @@ end
 require 'chef/rewind'
 include_recipe 'rewind::base'
 
+file '/tmp/third_file' do
+  owner 'vagrant'
+end
+
 rewind "file[/tmp/first_file]" do
   content "a rewound file"
 end
