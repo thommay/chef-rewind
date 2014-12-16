@@ -86,7 +86,7 @@ describe Chef::Recipe do
 
       %w(zen_master[bar] cat[blanket]).each do |name|
         resource = @run_context.resource_collection.lookup(name)
-        resource.to_s.should == name
+        expect(resource.to_s).to eq(name)
       end
     end
   end
