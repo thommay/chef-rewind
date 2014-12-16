@@ -1,0 +1,26 @@
+---
+driver:
+  name: vagrant
+  synced_folders:
+    - [ 'pkg', '/opt/pkg']
+
+provisioner:
+  name: chef_zero
+
+platforms:
+  <% %w{11.16.4 12.0.1}.each do |chef_ver| %>
+  - name: ubuntu-14.04-<%= chef_ver %>
+    driver_config:
+      box: opscode-ubuntu-14.04
+      box_url: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_ubuntu-14.04_chef-provisionerless.box
+      require_chef_omnibus: <%= chef_ver %>
+<% end %>
+
+suites:
+  - name: default
+    run_list:
+      - "recipe[rewind]"
+      - "recipe[minitest-handler]"
+    attributes:
+      rewind:
+        ver: 0.0.8
