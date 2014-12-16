@@ -7,6 +7,9 @@ gem "rspec"
 gem "chef"
 gem "pry"
 gem "rake"
-gem 'test-kitchen'
-gem 'kitchen-vagrant'
-gem 'berkshelf'
+
+group :kitchen do
+  gem 'test-kitchen'
+  gem 'kitchen-vagrant'
+  gem 'berkshelf'
+end
