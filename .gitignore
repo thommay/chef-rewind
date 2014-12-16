@@ -2,7 +2,9 @@
 *.rbc
 .bundle
 .config
+.rake_tasks~
 .yardoc
+Berksfile.lock
 Gemfile.lock
 gemfiles/*.lock
 InstalledFiles
