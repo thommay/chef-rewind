@@ -1,5 +1,7 @@
 # Chef::Rewind
 
+[![Build Status](https://travis-ci.org/thommay/chef-rewind.svg?branch=master)](https://travis-ci.org/thommay/chef-rewind)
+
 This adds a simple function to the Chef library scope to
 rewind or unwind an existing resource. If the given resource does not exist, 
 a `Chef::Exceptions::ResourceNotFound` exception will be raised.
