@@ -35,10 +35,3 @@ Dir["spec/support/**/*.rb"].
   map { |f| f.gsub(%r{.rb$}, '') }.
   each { |f| require f }
 
-
-RSpec.configure do |config|
-  config.filter_run :focus => true
-  config.filter_run_excluding :external => true
-
-  config.run_all_when_everything_filtered = true
-end
