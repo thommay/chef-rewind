@@ -67,18 +67,39 @@ end
 
 class Chef
   class ResourceCollection
-    def delete_resource(resource_id)
-      lookup resource_id
-
-      # assumes `resource_id` is the same as `Chef::Resource#to_s`
-      @resources.delete_if {|r| r.to_s == resource_id }
-      resource_index_value = @resources_by_name[resource_id]
-      @resources_by_name.each do |k, v|
-        @resources_by_name[k] = v - 1 if v > resource_index_value
+    if Gem::Version.new(Chef::VERSION) > Gem::Version.new('12')
+      class ResourceSet
+        def delete(key)
+          @resources_by_key.delete(key)
+        end
       end
 
-      @resources_by_name.delete resource_id
+      class ResourceList
+        def delete(key)
+          @resources.delete_if { |r| r.to_s == key }
+        end
+      end
 
+      def delete_resource(resource_id)
+        lookup resource_id
+
+        @resource_set.delete(resource_id)
+        @resource_list.delete(resource_id)
+      end
+    else
+      def delete_resource(resource_id)
+        lookup resource_id
+
+        # assumes `resource_id` is the same as `Chef::Resource#to_s`
+        @resources.delete_if {|r| r.to_s == resource_id }
+        resource_index_value = @resources_by_name[resource_id]
+        @resources_by_name.each do |k, v|
+          @resources_by_name[k] = v - 1 if v > resource_index_value
+        end
+
+        @resources_by_name.delete resource_id
+
+      end
     end
   end
 end

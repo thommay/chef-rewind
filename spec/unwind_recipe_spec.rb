@@ -29,7 +29,18 @@ describe Chef::Recipe do
       @recipe.unwind "zen_master[foobar]"
 
       resources = @run_context.resource_collection.all_resources
-      expect(resources.length).to eq 0
+      expect(resources.empty?).to be_truthy
+    end
+
+    it 'should only remove the correct resource' do
+      @recipe.zen_master "foobar"
+      @recipe.cat "blanket"
+      @recipe.zen_master "bar"
+
+      @recipe.unwind "cat[blanket]"
+
+      resources = @run_context.resource_collection.all_resources
+      expect(resources.length).to eq 2
     end
 
     it "should define resource completely when unwind is called" do
