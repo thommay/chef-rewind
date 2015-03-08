@@ -44,12 +44,13 @@ include_recipe "postgresql::server"
 
 rewind "user[postgres]" do
   home '/var/lib/pgsql/9.2'
+  cookbook 'my-postgresql'    # or `cookbook cookbook_name()`
 end
 
 ```
 
 The user `postgres` will act once with the home directory
-`/var/lib/pgsql/9.2` and the `cookbook_name` attribute is now
+`/var/lib/pgsql/9.2` and the `cookbook` attribute is now
 `my-postgresql` instead of `postgresql`. This last part is
 particularly important for templates and cookbook files.
 
@@ -101,7 +102,7 @@ template "logging.yml" do
   path  "#{node.elasticsearch[:path][:conf]}/logging.yml"
   source "logging.yml.erb"
   owner node.elasticsearch[:user] and group node.elasticsearch[:user] and mode 0755
-  cookbook_name "elasticsearch"
+  cookbook "elasticsearch"    # or `cookbook cookbook_name()`
 
   # this is the only change from original definition
   notifies :run, 'execute[Custom ElasticSearch restarter]'
@@ -117,7 +118,7 @@ thus you need to `unwind` and redefine it based on the original version.
 
 ## Gotchas *Important*
 
-The rewind method does not automatically change the cookbook_name
+The rewind method does not automatically change the `cookbook`
 attribute for a resource to the current cookbook. Doing so could cause
 some unexpected behavior, particularly for less expert chef users.
 
@@ -138,12 +139,12 @@ include_recipe "postgresql::server"
 # my-postgresql.conf.erb located inside my-postgresql/templates/default/my-postgresql.conf.erb
 rewind :template => "/var/pgsql/data/postgresql.conf" do
   source "my-postgresql.conf.erb"
-  cookbook_name "my-postgresql"
+  cookbook "my-postgresql"    # or `cookbook cookbook_name()`
 end
 
 ```
 
-If you do not specify cookbook_name the rewind function will likely
+If you do not specify the `cookbook` attribute, the rewind function will likely
 return an error since Chef will look in the postgresql cookbook for
 the source file and not in the my-postgresql cookbook.
 
