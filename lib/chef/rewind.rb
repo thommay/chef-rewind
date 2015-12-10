@@ -41,6 +41,8 @@ class Chef
     # resource<String>:: String identifier for resource
     def unwind(resource_id)
       run_context.resource_collection.delete_resource resource_id
+      run_context.immediate_notification_collection.delete resource_id
+      run_context.delayed_notification_collection.delete resource_id
     end
   end
 end
