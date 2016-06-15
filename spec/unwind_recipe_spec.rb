@@ -66,6 +66,29 @@ describe Chef::Recipe do
       expect { @runner.converge }.to raise_error(Chef::Provider::Cat::CatError)
     end
 
+    it "should delete notifications from run_context" do
+      # define a resource with notifications
+      @recipe.zen_master "foobar" do
+        peace false
+        action :nothing
+        notifies :blowup, "cat[blanket1]", :immediately
+        notifies :blowup, "cat[blanket2]", :delayed
+      end
+      @recipe.cat "blanket1"
+      @recipe.cat "blanket2"
+
+      # remove the previous resource and all of its notifications
+      @recipe.unwind "zen_master[foobar]"
+
+      # define a new resource with the same name as the previous but with no notifications
+      @recipe.zen_master "foobar" do
+        peace true
+        action :change
+      end
+
+      expect { @runner.converge }.to_not raise_error(Chef::Provider::Cat::CatError)
+    end
+
     it "should throw an error when unwinding a nonexistent resource" do
       expect {
         @recipe.unwind "zen_master[foobar]"
