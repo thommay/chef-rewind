@@ -1,3 +1,8 @@
+# DEPRECATED
+
+This library is deprecated, please see ![RIP chef-rewind](https://coderanger.net/rewind/) for more details on alternative APIs shipped directly in chef-client.
+
+
 # Chef::Rewind
 
 [![Build Status](https://travis-ci.org/thommay/chef-rewind.svg?branch=master)](https://travis-ci.org/thommay/chef-rewind)
