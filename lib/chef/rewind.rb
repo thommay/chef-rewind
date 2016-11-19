@@ -19,6 +19,7 @@ class Chef
     # resource<String>:: String identifier for resource
     # block<Proc>:: Block with attributes to rewind or create
     def rewind(resource_id,  &block)
+      Chef::Log.warn 'Chef-rewind is deprecated. See https://coderanger.net/rewind/ for more information and migration steps.'
       begin
         r = resources(resource_id)
         Chef::Log.info "Resource #{resource_id} found, now rewinding it"
